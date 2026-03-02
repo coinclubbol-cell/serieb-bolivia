@@ -7,50 +7,128 @@
 
 <style>
 body{
-font-family:Arial;
-text-align:center;
-background:#111;
+margin:0;
+font-family: 'Segoe UI', Arial, sans-serif;
+background:#0f172a;
 color:white;
-padding:20px;
+text-align:center;
 }
+
+.container{
+padding:25px;
+}
+
+.card{
+background:#1e293b;
+padding:25px;
+border-radius:15px;
+box-shadow:0 0 20px rgba(0,0,0,0.5);
+}
+
+h1{
+font-size:22px;
+margin-bottom:5px;
+}
+
+.sub{
+color:#94a3b8;
+font-size:14px;
+margin-bottom:20px;
+}
+
 input{
-padding:12px;
+width:90%;
+padding:14px;
 font-size:20px;
-width:80%;
 text-align:center;
-border-radius:8px;
+border-radius:10px;
 border:none;
-margin-top:15px;
+margin-bottom:15px;
 }
+
 button{
-margin-top:15px;
-padding:12px 25px;
-font-size:18px;
-background:#c40000;
-color:white;
+background:#dc2626;
 border:none;
-border-radius:8px;
+padding:14px 30px;
+font-size:18px;
+color:white;
+border-radius:10px;
+cursor:pointer;
 }
+
+button:hover{
+background:#b91c1c;
+}
+
 #resultado{
 margin-top:25px;
-font-size:22px;
+padding:20px;
+border-radius:12px;
 font-weight:bold;
 }
-.no{color:red;}
-.ok{color:lime;}
+
+.no{
+background:#7f1d1d;
+color:#fecaca;
+font-size:22px;
+}
+
+.ok{
+background:#14532d;
+color:#bbf7d0;
+font-size:22px;
+}
+
+.footer{
+margin-top:35px;
+font-size:14px;
+color:#94a3b8;
+}
+
+.billetes{
+margin-top:15px;
+display:flex;
+justify-content:center;
+gap:15px;
+flex-wrap:wrap;
+}
+
+.billete{
+background:#334155;
+padding:10px 15px;
+border-radius:8px;
+font-weight:bold;
+}
 </style>
 </head>
 
 <body>
 
-<h2>Verificador Serie B Bolivia</h2>
-<p>Ingrese número de serie (9 dígitos)</p>
+<div class="container">
 
-<input type="number" id="numero" placeholder="Ej: 086262639">
+<div class="card">
+
+<h1>Verificador Serie B</h1>
+<div class="sub">Billetes del Estado Plurinacional de Bolivia</div>
+
+<input type="number" id="numero" placeholder="Ingrese 9 dígitos">
 <br>
 <button onclick="verificar()">VERIFICAR</button>
 
 <div id="resultado"></div>
+
+</div>
+
+<div class="footer">
+Denominaciones verificadas:
+<div class="billetes">
+<div class="billete">10 Bs</div>
+<div class="billete">20 Bs</div>
+<div class="billete">50 Bs</div>
+</div>
+</div>
+
+</div>
 
 <script>
 
@@ -61,19 +139,14 @@ return num >= desde && num <= hasta;
 function verificar(){
 
 let numero = document.getElementById("numero").value;
-
-// eliminar caracteres no numéricos
 numero = numero.replace(/\D/g,'');
-
-// completar a 9 dígitos
 numero = numero.padStart(9,"0");
-
 let num = parseInt(numero);
 
 let invalido = false;
 let tipo = "";
 
-// ----- RANGOS Bs10 -----
+// 10 Bs
 if(
 dentroRango(num,67250001,67700000) ||
 dentroRango(num,69050001,69500000) ||
@@ -90,7 +163,7 @@ invalido = true;
 tipo = "10 Bs";
 }
 
-// ----- RANGOS Bs20 -----
+// 20 Bs
 if(
 dentroRango(num,87280145,91646549) ||
 dentroRango(num,96650001,97100000) ||
@@ -113,7 +186,7 @@ invalido = true;
 tipo = "20 Bs";
 }
 
-// ----- RANGOS Bs50 -----
+// 50 Bs
 if(
 dentroRango(num,77100001,77550000) ||
 dentroRango(num,78000001,78450000) ||
@@ -133,11 +206,13 @@ tipo = "50 Bs";
 }
 
 if(invalido){
+document.getElementById("resultado").className = "no";
 document.getElementById("resultado").innerHTML =
-"<div class='no'>NO RECIBIR<br>Razón: Número sin valor legal – "+tipo+"<br>"+numero+" - B</div>";
+"NO RECIBIR<br><br>Razón: Número sin valor legal – "+tipo+"<br><br>"+numero+" - B";
 }else{
+document.getElementById("resultado").className = "ok";
 document.getElementById("resultado").innerHTML =
-"<div class='ok'>RECIBIR<br>"+numero+" - B</div>";
+"RECIBIR<br><br>"+numero+" - B";
 }
 
 }
