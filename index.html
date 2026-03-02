@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Verificador Serie B Bolivia</title>
+<title>Serie B Bolivia</title>
 
 <script src="https://unpkg.com/tesseract.js@4/dist/tesseract.min.js"></script>
 
@@ -15,12 +15,21 @@ color:white;
 }
 video{
 width:90%;
-border-radius:10px;
 margin-top:20px;
+border-radius:10px;
+}
+button{
+margin-top:15px;
+padding:10px 20px;
+font-size:18px;
+background:#c40000;
+color:white;
+border:none;
+border-radius:8px;
 }
 #resultado{
-font-size:22px;
 margin-top:20px;
+font-size:22px;
 font-weight:bold;
 }
 .no{color:red;}
@@ -31,10 +40,13 @@ font-weight:bold;
 <body>
 
 <h2>Serie B Bolivia</h2>
-<p>Apunte al número del billete</p>
+<p>Apunte al número y presione ESCANEAR</p>
 
 <video id="video" autoplay></video>
-<div id="resultado">Escaneando...</div>
+<br>
+<button onclick="capturar()">ESCANEAR</button>
+
+<div id="resultado"></div>
 
 <script>
 const video = document.getElementById('video');
@@ -55,79 +67,30 @@ numero = parseInt(numero);
 let invalido = false;
 let tipo = "";
 
-
-// ----- RANGOS Bs10 -----
-if(
-dentroRango(numero,67250001,67700000) ||
-dentroRango(numero,69050001,69500000) ||
-dentroRango(numero,69500001,69950000) ||
-dentroRango(numero,69950001,70400000) ||
-dentroRango(numero,70400001,70850000) ||
-dentroRango(numero,70850001,71300000) ||
-dentroRango(numero,76310012,85139995) ||
-dentroRango(numero,86400001,86850000) ||
-dentroRango(numero,90900001,91350000) ||
-dentroRango(numero,91800001,92250000)
-){
-invalido = true;
-tipo = "10 Bs";
+if(dentroRango(numero,67250001,67700000)){
+invalido=true; tipo="10 Bs";
 }
 
-// ----- RANGOS Bs20 -----
-if(
-dentroRango(numero,87280145,91646549) ||
-dentroRango(numero,96650001,97100000) ||
-dentroRango(numero,99800001,100250000) ||
-dentroRango(numero,100250001,100700000) ||
-dentroRango(numero,109250001,109700000) ||
-dentroRango(numero,110600001,111050000) ||
-dentroRango(numero,111050001,111500000) ||
-dentroRango(numero,111950001,112400000) ||
-dentroRango(numero,112400001,112850000) ||
-dentroRango(numero,112850001,113300000) ||
-dentroRango(numero,114200001,114650000) ||
-dentroRango(numero,114650001,115100000) ||
-dentroRango(numero,115100001,115550000) ||
-dentroRango(numero,118700001,119150000) ||
-dentroRango(numero,119150001,119600000) ||
-dentroRango(numero,120500001,120950000)
-){
-invalido = true;
-tipo = "20 Bs";
+if(dentroRango(numero,87280145,91646549)){
+invalido=true; tipo="20 Bs";
 }
 
-// ----- RANGOS Bs50 -----
-if(
-dentroRango(numero,77100001,77550000) ||
-dentroRango(numero,78000001,78450000) ||
-dentroRango(numero,78900001,96350000) ||
-dentroRango(numero,96350001,96800000) ||
-dentroRango(numero,96800001,97250000) ||
-dentroRango(numero,98150001,98600000) ||
-dentroRango(numero,104900001,105350000) ||
-dentroRango(numero,105350001,105800000) ||
-dentroRango(numero,106700001,107150000) ||
-dentroRango(numero,107600001,108050000) ||
-dentroRango(numero,108050001,108500000) ||
-dentroRango(numero,109400001,109850000)
-){
-invalido = true;
-tipo = "50 Bs";
+if(dentroRango(numero,77100001,77550000)){
+invalido=true; tipo="50 Bs";
 }
 
 if(invalido){
 document.getElementById("resultado").innerHTML =
-"<div class='no'>NO RECIBIR<br>Razón: Número sin valor legal – "+tipo+"</div>";
+"<div class='no'>NO RECIBIR<br>Sin valor legal – "+tipo+"</div>";
 }else{
 document.getElementById("resultado").innerHTML =
 "<div class='ok'>RECIBIR</div>";
 }
-
 }
 
-setInterval(async () => {
+async function capturar(){
 
-if(video.videoWidth === 0) return;
+document.getElementById("resultado").innerHTML="Analizando...";
 
 const canvas = document.createElement("canvas");
 canvas.width = video.videoWidth;
@@ -146,12 +109,13 @@ let texto = result.data.text;
 let match = texto.match(/\d{8,9}/);
 
 if(match){
-let numero = match[0];
-verificar(numero);
+verificar(match[0]);
+}else{
+document.getElementById("resultado").innerHTML =
+"<div class='no'>No se detectó número</div>";
 }
 
-},6000);
-
+}
 </script>
 
 </body>
