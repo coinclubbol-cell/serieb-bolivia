@@ -1,39 +1,47 @@
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Verificador Serie B Bolivia</title>
+<title>Verificador Institucional Serie B</title>
 
 <style>
+
 body{
 margin:0;
-font-family: 'Segoe UI', Arial, sans-serif;
-background:#0f172a;
+font-family:Arial, sans-serif;
+background:#f1f5f9;
+}
+
+.header{
+background:#1e3a8a;
 color:white;
+padding:20px;
 text-align:center;
+border-bottom-left-radius:20px;
+border-bottom-right-radius:20px;
+}
+
+.header h1{
+margin:0;
+font-size:20px;
+}
+
+.header p{
+margin:5px 0 0 0;
+font-size:14px;
+opacity:0.9;
 }
 
 .container{
 padding:25px;
+text-align:center;
 }
 
 .card{
-background:#1e293b;
+background:white;
 padding:25px;
 border-radius:15px;
-box-shadow:0 0 20px rgba(0,0,0,0.5);
-}
-
-h1{
-font-size:22px;
-margin-bottom:5px;
-}
-
-.sub{
-color:#94a3b8;
-font-size:14px;
-margin-bottom:20px;
+box-shadow:0 5px 20px rgba(0,0,0,0.1);
 }
 
 input{
@@ -42,22 +50,23 @@ padding:14px;
 font-size:20px;
 text-align:center;
 border-radius:10px;
-border:none;
-margin-bottom:15px;
+border:1px solid #cbd5e1;
+margin-top:15px;
 }
 
 button{
-background:#dc2626;
+margin-top:20px;
+background:#1e3a8a;
+color:white;
 border:none;
 padding:14px 30px;
-font-size:18px;
-color:white;
+font-size:16px;
 border-radius:10px;
 cursor:pointer;
 }
 
 button:hover{
-background:#b91c1c;
+background:#1e40af;
 }
 
 #resultado{
@@ -65,53 +74,51 @@ margin-top:25px;
 padding:20px;
 border-radius:12px;
 font-weight:bold;
+font-size:20px;
 }
 
 .no{
-background:#7f1d1d;
-color:#fecaca;
-font-size:22px;
+background:#fee2e2;
+color:#b91c1c;
+border:1px solid #fecaca;
 }
 
 .ok{
-background:#14532d;
-color:#bbf7d0;
-font-size:22px;
+background:#dcfce7;
+color:#166534;
+border:1px solid #bbf7d0;
 }
 
 .footer{
-margin-top:35px;
-font-size:14px;
-color:#94a3b8;
+margin-top:40px;
+text-align:center;
+font-size:12px;
+color:#64748b;
 }
 
-.billetes{
+.denominaciones{
 margin-top:15px;
-display:flex;
-justify-content:center;
-gap:15px;
-flex-wrap:wrap;
+font-size:14px;
+color:#334155;
 }
 
-.billete{
-background:#334155;
-padding:10px 15px;
-border-radius:8px;
-font-weight:bold;
-}
 </style>
 </head>
 
 <body>
 
+<div class="header">
+<h1>🇧🇴 Verificador de Billetes – Serie B</h1>
+<p>Billetes de 10, 20 y 50 Bolivianos – Bolivia 2026</p>
+</div>
+
 <div class="container">
 
 <div class="card">
 
-<h1>Verificador Serie B</h1>
-<div class="sub">Billetes del Estado Plurinacional de Bolivia</div>
+<p><strong>Ingrese número de serie (dígita)</strong></p>
 
-<input type="number" id="numero" placeholder="Ingrese la serie">
+<input type="number" id="numero" placeholder="Ej: 086262639">
 <br>
 <button onclick="verificar()">VERIFICAR</button>
 
@@ -119,17 +126,12 @@ font-weight:bold;
 
 </div>
 
+<div class="denominaciones">
+Denominaciones verificadas: 10 Bs | 20 Bs | 50 Bs
+</div>
+
 <div class="footer">
-Denominaciones verificadas:
-<div class="billetes">
-<div class="billete">10 Bs</div>
-<div class="billete">20 Bs</div>
-<div class="billete">50 Bs</div>
-</div>
-  <div style="margin-top:25px; font-size:12px; color:#64748b;">
-by Brayan L. Quispe
-</div>
-  
+Desarrollado por Brayan L. Quispe
 </div>
 
 </div>
@@ -210,16 +212,17 @@ tipo = "50 Bs";
 }
 
 if(invalido){
-document.getElementById("resultado").className = "no";
-document.getElementById("resultado").innerHTML =
+document.getElementById("resultado").className="no";
+document.getElementById("resultado").innerHTML=
 "NO RECIBIR<br><br>Razón: Número sin valor legal – "+tipo+"<br><br>"+numero+" - B";
 }else{
-document.getElementById("resultado").className = "ok";
-document.getElementById("resultado").innerHTML =
+document.getElementById("resultado").className="ok";
+document.getElementById("resultado").innerHTML=
 "RECIBIR<br><br>"+numero+" - B";
 }
 
 }
+
 </script>
 
 </body>
