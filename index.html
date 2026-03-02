@@ -1,1 +1,73 @@
 
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Serie B Bolivia Scanner</title>
+
+<script src="https://unpkg.com/tesseract.js@4/dist/tesseract.min.js"></script>
+
+<style>
+body{
+font-family:Arial;
+text-align:center;
+background:#111;
+color:white;
+}
+video{
+width:90%;
+border-radius:10px;
+margin-top:20px;
+}
+#resultado{
+font-size:24px;
+margin-top:20px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Serie B Bolivia</h2>
+<p>Apunte la cámara al número del billete</p>
+
+<video id="video" autoplay></video>
+
+<div id="resultado">Escaneando...</div>
+
+<script>
+const video = document.getElementById('video');
+
+navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+.then(stream => {
+video.srcObject = stream;
+});
+
+setInterval(async () => {
+
+const canvas = document.createElement("canvas");
+canvas.width = video.videoWidth;
+canvas.height = video.videoHeight;
+
+const ctx = canvas.getContext("2d");
+ctx.drawImage(video,0,0);
+
+const result = await Tesseract.recognize(
+canvas,
+'eng'
+);
+
+let texto = result.data.text;
+let match = texto.match(/\d{8,9}/);
+
+if(match){
+let numero = match[0].padStart(9,"0");
+document.getElementById("resultado").innerHTML =
+numero + " - B";
+}
+
+},4000);
+</script>
+
+</body>
+</html>
